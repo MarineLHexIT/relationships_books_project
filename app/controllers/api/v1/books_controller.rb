@@ -6,13 +6,13 @@ module Api
       # GET /books or /books.json
       def index
         @books = Book.all
-        render json: @books
+        respond_with @books, view: :index
       end
 
       # GET /books/1 or /books/1.json
       def show
         if @book
-          render json: @book
+          respond_with @book, view: :show
         else
           render json: @book.errors
         end

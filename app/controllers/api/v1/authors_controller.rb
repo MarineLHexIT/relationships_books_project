@@ -6,13 +6,13 @@ module Api
       # GET /authors or /authors.json
       def index
         @authors = Author.all
-        render json: @authors
+        respond_with @authors
       end
 
       # GET /authors/1 or /authors/1.json
       def show
         if @author
-          render json: @author
+          respond_with @author
         else
           render json: @author.errors
         end
