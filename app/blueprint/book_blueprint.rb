@@ -7,6 +7,7 @@ class BookBlueprint < ApplicationBlueprint
   view :index do
     association :author, blueprint: AuthorBlueprint
     association :publishers, blueprint: PublisherBlueprint
+    association :genres, blueprint: GenreBlueprint, default: {}
   end
 
   view :show do

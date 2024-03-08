@@ -12,17 +12,21 @@ require 'faker'
 50.times do
 
   author = Author.find_or_create_by(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
-  edition = Edition.create(
-    publisher: Publisher.find_or_create_by(name: Faker::Book.publisher),
-    published_date: Faker::Date.between(from: '1950-01-01', to: Time.zone.today.to_date),
-    published_type: %w[paperbook ebook audiobook].sample,
-    published_language: %w[EN FR].sample
-  )
   Book.create(
     title: Faker::Book.title,
     isbn: Faker::Code.isbn(base: 13),
     author: author,
-    editions: [edition]
+    editions: Array.new(rand(1..5)).map{|_|
+      Edition.find_or_create_by(
+        publisher: Publisher.find_or_create_by(name: Faker::Book.publisher),
+        published_date: Faker::Date.between(from: '1950-01-01', to: Time.zone.today.to_date),
+        published_type: %w[paperbook ebook audiobook].sample,
+        published_language: %w[EN FR].sample
+      )
+    },
+    genres: Array.new(rand(1..3)).map {|_|
+      Faker::Book.genre
+    }.uniq.map { |name| Genre.find_or_create_by(name: name) }
   )
 
 

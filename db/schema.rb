@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_08_100021) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_08_122820) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_08_100021) do
     t.index ["author_id"], name: "index_books_on_author_id"
   end
 
+  create_table "books_genres", id: false, force: :cascade do |t|
+    t.bigint "book_id", null: false
+    t.bigint "genre_id", null: false
+  end
+
   create_table "editions", force: :cascade do |t|
     t.bigint "publisher_id", null: false
     t.bigint "book_id", null: false
@@ -42,8 +47,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_08_100021) do
     t.index ["publisher_id"], name: "index_editions_on_publisher_id"
   end
 
+  create_table "genres", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "publishers", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "readers", force: :cascade do |t|
+    t.string "login"
+    t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
