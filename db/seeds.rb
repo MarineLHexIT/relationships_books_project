@@ -9,20 +9,22 @@
 #   end
 require 'faker'
 
+50.times do
 
-
-10.times do
-  Author.create(
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name
+  author = Author.find_or_create_by(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
+  edition = Edition.create(
+    publisher: Publisher.find_or_create_by(name: Faker::Book.publisher),
+    published_date: Faker::Date.between(from: '1950-01-01', to: Time.zone.today.to_date),
+    published_type: %w[paperbook ebook audiobook].sample,
+    published_language: %w[EN FR].sample
   )
-end
-
-30.times do
   Book.create(
     title: Faker::Book.title,
     isbn: Faker::Code.isbn(base: 13),
-    author: Author.all.sample
-    )
+    author: author,
+    editions: [edition]
+  )
+
+
 
 end
