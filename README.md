@@ -1,24 +1,55 @@
-# README
+Mini project to create relationships between Models in Rails
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Database model : https://dbdiagram.io/d/relationships_books_project-65ead197b1f3d4062c703874
+```
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
 
-Things you may want to cover:
+Table books {
+id integer
+title string
+isbn string
+author_id integer
+}
 
-* Ruby version
+Table authors {
+id integer
+first_name string
+last_name string
+}
 
-* System dependencies
+Table readers {
+id integer
+login string
+email string
+}
 
-* Configuration
+Table books_readers {
+book_id integer
+reader_id integer
+rating integer
+comment text
+started_at timestamp
+finished_at timestamp
+}
 
-* Database creation
+Table editions {
+id integer
+published_date datetime
+language string // en, fr, etc.
+type string // paperbook, ebook, audiobook
+publisher_id integer
+book_id integer
+}
 
-* Database initialization
+Table publishers {
+id integer
+name string
+}
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Ref: books.author_id > authors.id
+Ref: books_readers.book_id > books.id
+Ref: books_readers.reader_id > readers.id
+Ref: editions.book_id > books.id
+Ref: editions.publisher_id > publishers.id
+```
