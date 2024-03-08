@@ -9,7 +9,20 @@
 #   end
 require 'faker'
 
+
+
+10.times do
+  Author.create(
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name
+  )
+end
+
 30.times do
-  Book.create title: Faker::Book.title, isbn: Faker::Code.isbn(base: 13)
+  Book.create(
+    title: Faker::Book.title,
+    isbn: Faker::Code.isbn(base: 13),
+    author: Author.all.sample
+    )
 
 end

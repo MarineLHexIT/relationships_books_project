@@ -1,6 +1,6 @@
 module Api
   module V1
-    class BooksController < ApplicationController
+    class BooksController < ApiController
       before_action :set_book, only: %i[ show update destroy ]
 
       # GET /books or /books.json
@@ -54,7 +54,14 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def book_params
-        params.require(:book).permit(:title, :isbn)
+        if (params[:book][:author_id].present?)
+          return params.require(:book).permit(:title, :isbn, :author_id)
+        end
+        author = Author.new(params.require(:author).permit(:first_name, :last_name))
+        book = params.require(:book).permit(:title, :isbn)
+        book[:author] = author
+
+        book
       end
     end
   end
